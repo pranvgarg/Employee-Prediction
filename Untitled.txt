@@ -1,0 +1,98 @@
+setup CV :
+kcv = 10
+fitControl
+mySummary
+
+Boosting:
+gbmfit -> metric = “logLoss”
+
+train - 
+confusionMatrix(gbmfit) = Cross-Validated (10 fold) Confusion Matrix 
+                Reference
+Prediction  Yes   No
+       	 Yes 26.4  2.2
+       	 No   8.0 63.4
+ Accuracy (average) : 0.8982
+
+thresholder-
+  n.trees | interaction.depth | shrinkage | n.minobsinnode | prob_threshold | Sensitivity | Specificity
+    1000  |              10          |   0.1          |   10                    |  0.5                    |  0.76875   |  0.9660204
+
+Test - 
+get_metrics(0.75, test_probs, Employee_test$LeaveOrNot, "Yes", "No")
+  Accuracy      Kappa    AUC_ROC        TPR        FPR    logLoss 
+0.84408602 0.62536463 0.85616291 0.60937500 0.03278689 0.42728082 
+
+
+Random Forest:
+train - 
+confusionMatrix(rffit) = Cross-Validated (10 fold) Confusion Matrix 
+          Reference
+Prediction  Yes   No
+       Yes 23.3  3.7
+       No  11.1 61.9
+                            
+ Accuracy (average) : 0.8517
+
+thresholder-
+mtry prob_threshold Sensitivity Specificity
+  5            0.5   0.6773438   0.9431081
+
+Test - 
+get_metrics(0.75, test_probs, Employee_test$LeaveOrNot, "Yes", "No")
+  Accuracy      Kappa    AUC_ROC        TPR        FPR    logLoss 
+0.84838710 0.63274051 0.85680328 0.60000000 0.02131148 0.89469862 
+
+
+using the Rpart Bagging :
+Confusion Matrix and Statistics
+
+          Reference
+Prediction Yes  No
+       Yes 211  23
+       No  109 587
+                                         
+               Accuracy : 0.8581         
+                 95% CI : (0.834, 0.8799)
+    No Information Rate : 0.6559         
+    P-Value [Acc > NIR] : < 2.2e-16      
+                                         
+                  Kappa : 0.6641         
+                                         
+ Mcnemar's Test P-Value : 1.379e-13      
+                                         
+            Sensitivity : 0.6594         
+            Specificity : 0.9623         
+         Pos Pred Value : 0.9017         
+         Neg Pred Value : 0.8434         
+             Prevalence : 0.3441         
+         Detection Rate : 0.2269         
+   Detection Prevalence : 0.2516         
+      Balanced Accuracy : 0.8108         
+                                         
+       'Positive' Class : Yes   
+
+
+auc(roc_curve)
+Area under the curve: 0.8502
+
+
+PYTHON:
+              precision    recall  f1-score   support
+
+           0       0.85      0.95      0.90       305
+           1       0.88      0.68      0.76       160
+
+    accuracy                           0.86       465
+   macro avg       0.86      0.81      0.83       465
+weighted avg       0.86      0.86      0.85       465
+
+
+              precision    recall  f1-score   support
+
+           0       0.84      0.95      0.89       305
+           1       0.88      0.66      0.75       160
+
+    accuracy                           0.85       465
+   macro avg       0.86      0.80      0.82       465
+weighted avg       0.85      0.85      0.84       465
